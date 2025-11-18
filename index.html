@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Blackjack Rooms</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #111;
+            color: white;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 430px;
+            margin: auto;
+            background: #1a1a1a;
+            padding: 20px;
+            border-radius: 14px;
+            box-shadow: 0 0 20px rgba(255,255,255,0.05);
+        }
+
+        h2 {
+            margin-bottom: 5px;
+        }
+
+        p {
+            font-size: 14px;
+            margin-bottom: 20px;
+            opacity: 0.8;
+        }
+
+        label {
+            display: block;
+            text-align: left;
+            margin-top: 12px;
+            font-weight: bold;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            margin-top: 6px;
+            background: #2b2b2b;
+            color: white;
+            font-size: 15px;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            margin-top: 20px;
+            border: none;
+            background: #ffdd00;
+            color: black;
+            font-size: 16px;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #e6c800;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Booking Blackjack Rooms</h2>
+        <p>Isi formulir di bawah ini untuk melakukan pemesanan unit.</p>
+
+        <form>
+
+            <label>Nama Penyewa</label>
+            <input type="text" id="nama" required placeholder="Masukkan nama Anda">
+
+            <label>Pilih Tipe Unit</label>
+            <select id="tipe" required>
+                <option value="">-- Pilih Unit --</option>
+                <option value="Studio">Studio</option>
+                <option value="VIP">VIP</option>
+                <option value="Eksekutif">Eksekutif</option>
+            </select>
+
+            <label>Durasi Menginap</label>
+            <select id="durasi" required>
+                <option value="">-- Pilih Durasi --</option>
+                <option value="Harian">Harian</option>
+                <option value="Mingguan">Mingguan</option>
+                <option value="Bulanan">Bulanan</option>
+            </select>
+
+            <label>Tanggal Check-in</label>
+            <input type="date" id="checkin" required>
+
+            <label>Nomor WhatsApp Anda</label>
+            <input type="text" id="nowa" placeholder="Contoh: 08123456789">
+
+            <button type="button" onclick="kirimWA()">Kirim Booking via WhatsApp</button>
+
+        </form>
+    </div>
+
+    <script>
+        function kirimWA() {
+            let nama = document.getElementById("nama").value;
+            let tipe = document.getElementById("tipe").value;
+            let durasi = document.getElementById("durasi").value;
+            let checkin = document.getElementById("checkin").value;
+            let nowa = document.getElementById("nowa").value;
+
+            let pesan = 
+                "Halo Admin, saya ingin booking unit:%0A%0A" +
+                "Nama: " + nama + "%0A" +
+                "Tipe Unit: " + tipe + "%0A" +
+                "Durasi: " + durasi + "%0A" +
+                "Check-in: " + checkin + "%0A" +
+                "No. WA Penyewa: " + nowa;
+
+            window.location.href = "https://wa.me/6288290465961?text=" + pesan;
+        }
+    </script>
+
+</body>
+</html>
