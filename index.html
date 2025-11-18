@@ -52,6 +52,16 @@
             font-size: 15px;
         }
 
+        .total-box {
+            background: #222;
+            padding: 12px;
+            border-radius: 10px;
+            margin-top: 15px;
+            font-size: 17px;
+            font-weight: bold;
+            color: #ffdd00;
+        }
+
         button {
             width: 100%;
             padding: 14px;
@@ -82,26 +92,38 @@
             <input type="text" id="nama" required placeholder="Masukkan nama Anda">
 
             <label>Pilih Tipe Unit</label>
-            <select id="tipe" required>
+            <select id="tipe" onchange="updateTotal()" required>
                 <option value="">-- Pilih Unit --</option>
-                <option value="Studio">Studio</option>
-                <option value="VIP">VIP</option>
-                <option value="Eksekutif">Eksekutif</option>
+                <option value="Studio">Studio - Rp300.000 / malam</option>
+                <option value="VIP">VIP - Rp450.000 / malam</option>
+                <option value="Eksekutif">Eksekutif - Rp550.000 / malam</option>
             </select>
 
             <label>Durasi Menginap</label>
-            <select id="durasi" required>
+            <select id="durasi" onchange="updateTotal()" required>
                 <option value="">-- Pilih Durasi --</option>
                 <option value="Harian">Harian</option>
-                <option value="Mingguan">Mingguan</option>
-                <option value="Bulanan">Bulanan</option>
+                <option value="Mingguan">Mingguan (7 malam)</option>
+                <option value="Bulanan">Bulanan (30 malam)</option>
             </select>
 
             <label>Tanggal Check-in</label>
             <input type="date" id="checkin" required>
 
+            <label>Metode Pembayaran</label>
+            <select id="payment" required>
+                <option value="">-- Pilih Pembayaran --</option>
+                <option value="Transfer Bank">Transfer Bank</option>
+                <option value="Transfer Dana">Transfer Dana</option>
+                <option value="Transfer OVO">Transfer OVO</option>
+            </select>
+
             <label>Nomor WhatsApp Anda</label>
             <input type="text" id="nowa" placeholder="Contoh: 08123456789">
+
+            <div class="total-box">
+                Total Harga: <span id="total">Rp0</span>
+            </div>
 
             <button type="button" onclick="kirimWA()">Kirim Booking via WhatsApp</button>
 
@@ -109,19 +131,45 @@
     </div>
 
     <script>
+        function updateTotal() {
+            let tipe = document.getElementById("tipe").value;
+            let durasi = document.getElementById("durasi").value;
+
+            let harga = 0;
+            let malam = 1;
+
+            if (tipe === "Studio") harga = 300000;
+            if (tipe === "VIP") harga = 450000;
+            if (tipe === "Eksekutif") harga = 550000;
+
+            if (durasi === "Harian") malam = 1;
+            if (durasi === "Mingguan") malam = 7;
+            if (durasi === "Bulanan") malam = 30;
+
+            let total = harga * malam;
+
+            document.getElementById("total").innerText =
+                "Rp" + total.toLocaleString("id-ID");
+        }
+
+
         function kirimWA() {
             let nama = document.getElementById("nama").value;
             let tipe = document.getElementById("tipe").value;
             let durasi = document.getElementById("durasi").value;
             let checkin = document.getElementById("checkin").value;
             let nowa = document.getElementById("nowa").value;
+            let payment = document.getElementById("payment").value;
+            let total = document.getElementById("total").innerText;
 
-            let pesan = 
+            let pesan =
                 "Halo Admin, saya ingin booking unit:%0A%0A" +
                 "Nama: " + nama + "%0A" +
                 "Tipe Unit: " + tipe + "%0A" +
                 "Durasi: " + durasi + "%0A" +
                 "Check-in: " + checkin + "%0A" +
+                "Metode Pembayaran: " + payment + "%0A" +
+                "Total Harga: " + total + "%0A" +
                 "No. WA Penyewa: " + nowa;
 
             window.location.href = "https://wa.me/6288290465961?text=" + pesan;
